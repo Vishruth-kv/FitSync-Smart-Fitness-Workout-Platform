@@ -1,0 +1,34 @@
+{
+  "users": [
+    {
+      "id": "a3191230-8527-41f2-a420-3606e45a4fd5",
+      "name": "vikas",
+      "email": "vishruthkumar2005@gmail.com",
+      "passwordHash": "$2b$10$eG2kMEsY3tz9KSFSVVltluZRTBnWFFNAossIIoM9tkXHxOtcf5J76",
+      "age": 21,
+      "gender": "male",
+      "height": 178,
+      "weight": 77,
+      "fitnessGoal": "muscle_gain",
+      "fitnessLevel": "intermediate",
+      "workoutTime": "morning",
+      "workoutDays": [
+        "Mon",
+        "Tue",
+        "Wed",
+        "Fri",
+        "Sat"
+      ],
+      "preferredLocation": "near pooja international hotel Davangere",
+      "languages": [
+        "English",
+        "Kannada"
+      ],
+      "personality": "introvert",
+      "budget": 1000,
+      "preferredGymType": "budget",
+      "bio": "",
+      "createdAt": "2026-07-16T09:56:55.022Z"
+    }
+  ]
+}

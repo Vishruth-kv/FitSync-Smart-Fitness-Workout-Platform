@@ -1,0 +1,48 @@
+import { NextRequest, NextResponse } from "next/server";
+import { prisma } from "@/lib/db";
+import { cookies } from "next/headers";
+import * as jwt from "jsonwebtoken";
+
+async function getUserId() {
+  const cookieStore = await cookies();
+  const token = cookieStore.get("token")?.value;
+  if (!token) return null;
+  try {
+    const payload = jwt.verify(token, process.env.JWT_SECRET || "super-secret") as any;
+    return payload.userId as string;
+  } catch {
+    return null;
+  }
+}
+
+export async function POST(req: NextRequest, { params }: { params: Promise<{ conversationId: string }> }) {
+  const userId = await getUserId();
+  if (!userId) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+
+  const resolvedParams = await params;
+  const conversationId = resolvedParams.conversationId;
+
+  const conversation = await prisma.conversation.findFirst({
+    where: {
+      id: conversationId,
+      participantIds: { has: userId }
+    }
+  });
+
+  if (!conversation) {
+    return NextResponse.json({ error: "Not found" }, { status: 404 });
+  }
+
+  await prisma.message.updateMany({
+    where: {
+      conversationId,
+      senderId: { not: userId },
+      isRead: false
+    },
+    data: {
+      isRead: true
+    }
+  });
+
+  return NextResponse.json({ success: true });
+}
